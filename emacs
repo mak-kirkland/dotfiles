@@ -58,6 +58,8 @@
 
 ;;;; CUSTOM ;;;;
 
+;; Default browser is Emacs built-in browser
+(setq browse-url-browser-function 'eww-browse-url)
 ;; Delimiter matching
 (electric-pair-mode 1)
 ;; Find file in git project
