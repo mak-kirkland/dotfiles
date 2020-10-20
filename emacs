@@ -17,8 +17,8 @@
 (add-to-list 'load-path "~/git/sly")
 (require 'sly-autoloads)
 
-(add-to-list 'load-path "~/git/sly-stepper")
-(require 'sly-stepper-autoloads)
+;; (add-to-list 'load-path "~/git/sly-stepper")
+;; (require 'sly-stepper-autoloads)
 
 (add-to-list 'load-path "~/git/sly-macrostep")
 (require 'sly-macrostep-autoloads)
