@@ -58,6 +58,8 @@
 
 ;;;; CUSTOM ;;;;
 
+;; Auto-revert buffers
+(global-auto-revert-mode t)
 ;; Default browser is Emacs built-in browser
 (setq browse-url-browser-function 'eww-browse-url)
 ;; Delimiter matching
