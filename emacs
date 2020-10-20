@@ -44,8 +44,7 @@
 (use-package rg
   :init
   (rg-enable-default-bindings)
-  (setf rg-group-result t)
-  (setf rg-buffer-name "rg"))
+  (setf rg-group-result t))
 
 (use-package magit
   :bind ("C-x g" . magit-status))
