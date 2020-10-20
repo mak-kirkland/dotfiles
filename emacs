@@ -17,12 +17,6 @@
 (add-to-list 'load-path "~/git/sly")
 (require 'sly-autoloads)
 
-;; (add-to-list 'load-path "~/git/sly-stepper")
-;; (require 'sly-stepper-autoloads)
-
-(add-to-list 'load-path "~/git/sly-macrostep")
-(require 'sly-macrostep-autoloads)
-
 (with-eval-after-load 'sly
   (add-to-list 'sly-lisp-implementations
                '(sbcl ("sbcl")))
