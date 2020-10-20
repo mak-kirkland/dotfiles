@@ -5,7 +5,7 @@
 (eval-when-compile
   (require 'use-package))
 
-;;;; RAVENPACK ;;
+;;;; RAVENPACK ;;;;
 
 (setenv "ACL_LOCALE" "C.latin1")
 (setenv "ORACLE_HOME"     (concat (getenv "HOME") "/opt/oracle/"))
