@@ -12,6 +12,8 @@
 (setenv "LD_LIBRARY_PATH" (concat (getenv "HOME") "/opt/oracle/"))
 (setenv "TNS_ADMIN"       (concat (getenv "HOME") "/workspace/configuration/"))
 
+(load "~/the-vaults/emacs-libs/fi-manual.el")
+
 ;;;; SLY ;;;;
 
 (add-to-list 'load-path "~/git/sly")
