@@ -43,8 +43,7 @@
 
 (use-package rg
   :init
-  (rg-enable-default-bindings)
-  (setf rg-group-result t))
+  (rg-enable-default-bindings))
 
 (use-package magit
   :bind ("C-x g" . magit-status))
