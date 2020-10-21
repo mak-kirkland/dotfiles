@@ -30,8 +30,6 @@
             (replace-regexp-in-string "^.com\\.ravenpack\\." "" val))))
    '((name . joaot/remove-very-long-package-prefix))))
 
-(add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
-
 ;;;; PACKAGES ;;;;
 
 (use-package company
@@ -50,6 +48,8 @@
 
 ;;;; CUSTOM ;;;;
 
+;; Lisp mode in .cl files
+(add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
 ;; Auto-revert buffers
 (global-auto-revert-mode t)
 ;; Default browser is Emacs built-in browser
