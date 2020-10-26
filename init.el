@@ -93,11 +93,6 @@
 (load-theme 'atom-one-dark t)
 (set-frame-font "-xos4-terminus-medium-r-normal--16-*-72-72-c-80-*-r")
 
-(defun use-terminal-background ()
-  (unless (display-graphic-p (selected-frame))
-    (set-face-background 'default "unspecified-bg" (selected-frame))))
-(add-hook 'window-setup-hook #'use-terminal-background)
-
 ;; Pretty lambda
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 (add-hook 'lisp-mode-hook 'prettify-symbols-mode)
