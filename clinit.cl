@@ -172,9 +172,6 @@
 
 (excl:without-package-locks
   (defmethod excl:load-system :after ((system symbol) &rest keys)
-    (joaot/set-symbol-safe "*BREAK-ON-ERRORS*" :utils :unless-recoverable)
-    (joaot/set-symbol-safe "*TEST-MONITORING-ENVIRONMENT-P*" :mis.utils.monitoring nil)))
+    (joaot/set-symbol-safe "*TEST-MONITORING-ENVIRONMENT-P*" :mis.utils.monitoring nil)
     (joaot/set-symbol-safe "*SKIP-VALIDATION*" :ana t)
-    (joaot/set-symbol-safe "*GET-FROM-STORY-CACHE*" :ana nil)
-    (joaot/set-symbol-safe "*DB-CACHE-FORMAT*" :dbu :fasl)
-    ;;(joaot/set-symbol-safe "*DB-CACHE-DIR*" :dbu "~/Data/db-query-results/%Y-%W/")
+    (joaot/set-symbol-safe "*GET-FROM-STORY-CACHE*" :ana nil)))
