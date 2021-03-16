@@ -14,15 +14,16 @@
 
 ;;;; RAVENPACK ;;;;
 
-(setenv "ACL_LOCALE" "C.latin1")
+(setenv "ACL_LOCALE"      "C.latin1")
 (setenv "RP_REPOS"        (concat (getenv "HOME") "/workspace/"))
 (setenv "ORACLE_HOME"     (concat (getenv "HOME") "/opt/oracle/"))
 (setenv "LD_LIBRARY_PATH" (concat (getenv "HOME") "/opt/oracle/"))
 (setenv "TNS_ADMIN"       (concat (getenv "HOME") "/workspace/configuration/"))
 
-(load "~/the-vaults/emacs-libs/fi-manual.el")
-
 (setq default-directory (concat (getenv "RP_REPOS") "ravenpack/"))
+
+;; Allegro Manual
+(load "~/the-vaults/emacs-libs/fi-manual.el")
 
 ;;;; SLY ;;;;
 
