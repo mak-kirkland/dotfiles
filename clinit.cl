@@ -142,7 +142,9 @@
 
 (push :load-app-only *features*)
 
-(let ((clinit (merge-pathnames "workspace/ravenpack/system.lisp" (user-homedir-pathname))))
+(let ((clinit (concatenate 'string
+                           (sys:getenv "RP_REPOS")
+                           "ravenpack/system.lisp")))
   (if (probe-file clinit)
       (load clinit)
     (warn "Cannot load ~s: file not found." clinit)))
@@ -173,5 +175,4 @@
 (excl:without-package-locks
   (defmethod excl:load-system :after ((system symbol) &rest keys)
     (joaot/set-symbol-safe "*TEST-MONITORING-ENVIRONMENT-P*" :mis.utils.monitoring nil)
-    (joaot/set-symbol-safe "*SKIP-VALIDATION*" :ana t)
-    (joaot/set-symbol-safe "*GET-FROM-STORY-CACHE*" :ana nil)))
+    (joaot/set-symbol-safe "*SKIP-VALIDATION*" :ana t)))
