@@ -92,8 +92,12 @@
 (toggle-frame-maximized)
 
 (setq custom-file "~/tmp/emacs-custom-file-that-i-despise.el")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-(load-theme 'atom-one-dark t)
+
+(use-package atom-one-dark-theme
+  :ensure t
+  :config
+  (load-theme 'atom-one-dark t))
+
 (set-frame-font "Terminus-16" nil t)
 
 ;; Pretty lambda
