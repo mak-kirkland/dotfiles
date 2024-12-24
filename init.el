@@ -12,16 +12,6 @@
   (require 'use-package))
 (setq use-package-always-ensure t)
 
-;;;; RAVENPACK ;;;;
-
-(setenv "ACL_LOCALE"      "C.latin1")
-(setenv "RP_REPOS"        (concat (getenv "HOME") "/workspace/"))
-(setenv "ORACLE_HOME"     (concat (getenv "HOME") "/opt/oracle/"))
-(setenv "LD_LIBRARY_PATH" (concat (getenv "HOME") "/opt/oracle/"))
-(setenv "TNS_ADMIN"       (concat (getenv "HOME") "/workspace/configuration/"))
-
-(setq default-directory (concat (getenv "RP_REPOS") "ravenpack/"))
-
 ;; Allegro Manual
 (load "~/the-vaults/emacs-libs/fi-manual.el")
 
@@ -49,8 +39,13 @@
   :ensure t
   :config
   (global-company-mode)
-  (company-quickhelp-mode)
   (setq company-require-match nil))
+
+(use-package company-quickhelp
+  :ensure t
+  :after company
+  :config
+  (company-quickhelp-mode))
 
 (use-package rg
   :init
@@ -99,7 +94,7 @@
 (setq custom-file "~/tmp/emacs-custom-file-that-i-despise.el")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'atom-one-dark t)
-(set-frame-font "-xos4-terminus-medium-r-normal--16-*-72-72-c-80-*-r")
+(set-frame-font "Terminus-16" nil t)
 
 ;; Pretty lambda
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
