@@ -51,7 +51,10 @@
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)  ;; Show recent files in completion
-  (setq ivy-count-format "(%d/%d) ")) ;; Display counts
+  (setq ivy-count-format "(%d/%d) ") ;; Display counts
+  (setq ivy-re-builders-alist
+        '((swiper . ivy--regex-plus)
+          (t      . ivy--regex-fuzzy))))
 
 (use-package counsel
   :ensure t
