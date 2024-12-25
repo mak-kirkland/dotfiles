@@ -22,19 +22,11 @@
 
 (with-eval-after-load 'sly
   (add-to-list 'sly-lisp-implementations
-               '(sbcl ("sbcl")))
-  (add-to-list 'sly-lisp-implementations
-               '(allegro ("~/opt/acl10.1-smp.64/alisp")))
-  (add-function
-   :around sly-find-buffer-package-function
-   (lambda (oldfun &rest args)
-     (let ((val (apply oldfun args)) )
-       (and val
-            (replace-regexp-in-string "^.com\\.ravenpack\\." "" val))))
-   '((name . joaot/remove-very-long-package-prefix))))
+               '(sbcl ("sbcl"))))
 
 ;;;; PACKAGES ;;;;
 
+;; Code completion
 (use-package company
   :ensure t
   :config
@@ -46,6 +38,32 @@
   :after company
   :config
   (company-quickhelp-mode))
+
+;; Emacs completion
+(use-package ivy
+  :ensure t
+  :diminish
+  :bind (("C-s" . swiper)            ;; Use swiper for incremental search
+         ("M-x" . counsel-M-x)      ;; Enhanced M-x
+         ("C-x C-f" . counsel-find-file) ;; Enhanced find-file
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done))    ;; Use TAB for completion
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)  ;; Show recent files in completion
+  (setq ivy-count-format "(%d/%d) ")) ;; Display counts
+
+(use-package counsel
+  :ensure t
+  :after ivy
+  :config
+  (counsel-mode 1)) ;; Enable counsel-enhanced commands
+
+(use-package counsel-projectile
+  :ensure t
+  :after (counsel projectile)
+  :config
+  (counsel-projectile-mode))
 
 (use-package rg
   :init
@@ -70,8 +88,6 @@
 (electric-pair-mode 1)
 ;; Find file in git project
 (global-set-key (kbd "C-c p") 'project-find-file)
-;; Completion
-(fido-mode 1)
 ;; Typing over selection re-writes it
 (delete-selection-mode)
 ;; Indentation and trailing whitespace
@@ -91,7 +107,7 @@
 (tool-bar-mode -1)
 (toggle-frame-maximized)
 
-(setq custom-file "~/tmp/emacs-custom-file-that-i-despise.el")
+(setq custom-file "/tmp/emacs-custom-file-that-i-despise.el")
 
 (use-package atom-one-dark-theme
   :ensure t
