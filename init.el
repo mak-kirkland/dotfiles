@@ -67,7 +67,17 @@
 
 (use-package lsp-mode
   :ensure t
-  :commands lsp)
+  :commands lsp
+  :custom
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-idle-delay 0.6))
+
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-reload-all)
+  (add-hook 'prog-mode-hook 'yas-minor-mode)
+  (add-hook 'text-mode-hook 'yas-minor-mode))
 
 ;;;; CUSTOM ;;;;
 
@@ -103,7 +113,7 @@
 (tool-bar-mode -1)
 (toggle-frame-maximized)
 
-(setq custom-file "/tmp/emacs-custom-file-that-i-despise.el")
+(setq custom-file "~/.emacs.d/emacs-custom-file-that-i-despise.el")
 
 (use-package atom-one-dark-theme
   :ensure t
