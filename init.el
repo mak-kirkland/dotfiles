@@ -70,7 +70,8 @@
   :commands lsp
   :custom
   (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-idle-delay 0.6))
+  (lsp-idle-delay 0.6)
+  (lsp-inlay-hint-enable t))
 
 (use-package yasnippet
   :ensure t
