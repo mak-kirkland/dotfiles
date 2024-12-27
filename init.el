@@ -113,8 +113,18 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (toggle-frame-maximized)
+(global-display-line-numbers-mode t)
+(setq display-line-numbers-width 4)
 
 (setq custom-file "~/.emacs.d/emacs-custom-file-that-i-despise.el")
+
+(use-package dired-sidebar
+  :bind (("C-x C-d" . dired-sidebar-toggle-sidebar))
+  :ensure t
+  :config
+  (setq dired-sidebar-use-term-integration t)
+  (setq dired-sidebar-theme 'nerd)
+  (add-hook 'dired-sidebar-mode-hook (lambda () (display-line-numbers-mode -1))))
 
 (use-package atom-one-dark-theme
   :ensure t
