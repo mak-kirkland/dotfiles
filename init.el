@@ -121,7 +121,7 @@
   :config
   (load-theme 'atom-one-dark t))
 
-(set-frame-font "Terminus-16" nil t)
+(set-frame-font "Hack-13" nil t)
 
 ;; Pretty lambda
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
