@@ -39,33 +39,7 @@
 
 ;;;; EMACS COMPLETION ;;;;
 
-(use-package ivy
-  :ensure t
-  :diminish
-  :bind (("C-s" . swiper)            ;; Use swiper for incremental search
-         ("M-x" . counsel-M-x)      ;; Enhanced M-x
-         ("C-x C-f" . counsel-find-file) ;; Enhanced find-file
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done))    ;; Use TAB for completion
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)  ;; Show recent files in completion
-  (setq ivy-count-format "(%d/%d) ") ;; Display counts
-  (setq ivy-re-builders-alist
-        '((swiper . ivy--regex-plus)
-          (t      . ivy--regex-fuzzy))))
-
-(use-package counsel
-  :ensure t
-  :after ivy
-  :config
-  (counsel-mode 1)) ;; Enable counsel-enhanced commands
-
-(use-package counsel-projectile
-  :ensure t
-  :after (counsel projectile)
-  :config
-  (counsel-projectile-mode))
+(fido-vertical-mode 1)
 
 ;;;; RIPGREP ;;;;
 
