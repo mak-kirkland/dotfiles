@@ -1,19 +1,18 @@
-;;; Setup package.el
+;;;; PACKAGE.EL ;;;;
+
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (unless package--initialized (package-initialize))
 
-;;; Setup use-package
+;;;; USE-PACKAGE ;;;;
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))
 (setq use-package-always-ensure t)
-
-;; Allegro Manual
-(load "~/the-vaults/emacs-libs/fi-manual.el")
 
 ;;;; SLY ;;;;
 
@@ -24,9 +23,8 @@
   (add-to-list 'sly-lisp-implementations
                '(sbcl ("sbcl"))))
 
-;;;; PACKAGES ;;;;
+;;;; CODE COMPLETION ;;;;
 
-;; Code completion
 (use-package company
   :ensure t
   :config
@@ -39,7 +37,8 @@
   :config
   (company-quickhelp-mode))
 
-;; Emacs completion
+;;;; EMACS COMPLETION ;;;;
+
 (use-package ivy
   :ensure t
   :diminish
@@ -68,13 +67,33 @@
   :config
   (counsel-projectile-mode))
 
+;;;; RIPGREP ;;;;
+
 (use-package rg
   :init
   (rg-enable-default-bindings))
 
+;;;; GIT ;;;;
+
 (use-package magit
   :ensure t
   :bind ("C-x g" . magit-status))
+
+;;;; RUST ;;;;
+
+(setenv "PATH" (concat (getenv "PATH") ":" (getenv "HOME") "/.cargo/bin"))
+(setq exec-path (append exec-path '("~/.cargo/bin")))
+
+(use-package rustic
+  :ensure t
+  :config
+  (setq rustic-format-on-save t)
+  :custom
+  (rustic-cargo-use-last-stored-arguments t))
+
+(use-package lsp-mode
+  :ensure t
+  :commands lsp)
 
 ;;;; CUSTOM ;;;;
 
