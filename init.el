@@ -137,7 +137,7 @@
   :ensure t
   :hook (prog-mode-hook . highlight-indent-guides-mode)
   :custom
-  (setq highlight-indent-guides-responsive 'top)xe
+  (setq highlight-indent-guides-responsive 'top)
   (setq highlight-indent-guides-method 'bitmap)
   (setq highlight-indent-guides-auto-character-face-perc 80))
 
