@@ -113,8 +113,6 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (toggle-frame-maximized)
-(global-display-line-numbers-mode t)
-(setq display-line-numbers-width 4)
 
 (setq custom-file "~/.emacs.d/emacs-custom-file-that-i-despise.el")
 
@@ -130,6 +128,18 @@
   :ensure t
   :config
   (load-theme 'atom-one-dark t))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package highlight-indent-guides
+  :ensure t
+  :hook (prog-mode-hook . highlight-indent-guides-mode)
+  :custom
+  (setq highlight-indent-guides-responsive 'top)xe
+  (setq highlight-indent-guides-method 'bitmap)
+  (setq highlight-indent-guides-auto-character-face-perc 80))
 
 (set-frame-font "Hack-13" nil t)
 
