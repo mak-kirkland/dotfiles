@@ -58,20 +58,11 @@
 (setenv "PATH" (concat (getenv "PATH") ":" (getenv "HOME") "/.cargo/bin"))
 (setq exec-path (append exec-path '("~/.cargo/bin")))
 
-(use-package rustic
+(use-package rust-mode
   :ensure t
+  :hook (rust-mode . eglot-ensure)
   :config
-  (setq rustic-format-on-save t)
-  :custom
-  (rustic-cargo-use-last-stored-arguments t))
-
-(use-package lsp-mode
-  :ensure t
-  :commands lsp
-  :custom
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-idle-delay 0.6)
-  (lsp-inlay-hint-enable t))
+  (setq rust-format-on-save t))
 
 (use-package yasnippet
   :ensure t
