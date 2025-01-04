@@ -105,8 +105,6 @@
 (tool-bar-mode -1)
 (toggle-frame-maximized)
 
-(setq custom-file "~/.emacs.d/emacs-custom-file-that-i-despise.el")
-
 (use-package dired-sidebar
   :bind (("C-x C-d" . dired-sidebar-toggle-sidebar))
   :ensure t
@@ -129,7 +127,7 @@
   :hook (prog-mode . highlight-indent-guides-mode)
   :config
   (setq highlight-indent-guides-responsive 'top)
-  (setq highlight-indent-guides-method 'bitmap)
+  (setq highlight-indent-guides-method 'character)
   (setq highlight-indent-guides-auto-character-face-perc 80))
 
 (set-frame-font "Hack-13" nil t)
@@ -138,3 +136,6 @@
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 (add-hook 'lisp-mode-hook 'prettify-symbols-mode)
 (add-hook 'sly-mode-hook 'prettify-symbols-mode)
+
+(setq custom-file "~/.emacs.d/emacs-custom-file-that-i-despise.el")
+(load custom-file t)
