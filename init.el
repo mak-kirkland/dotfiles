@@ -14,10 +14,6 @@
   (require 'use-package))
 (setq use-package-always-ensure t)
 
-;;;; WORKSPACE ;;;;
-
-(setq default-directory "~/workspace/")
-
 ;;;; SLY ;;;;
 
 (add-to-list 'load-path "~/git/sly")
@@ -30,20 +26,20 @@
 ;;;; CODE COMPLETION ;;;;
 
 (use-package company
-  :ensure t
   :config
   (global-company-mode)
   (setq company-require-match nil))
 
 (use-package company-quickhelp
-  :ensure t
   :after company
   :config
   (company-quickhelp-mode))
 
-;;;; EMACS COMPLETION ;;;;
-
-(fido-vertical-mode 1)
+(use-package yasnippet
+  :config
+  (yas-reload-all)
+  (add-hook 'prog-mode-hook 'yas-minor-mode)
+  (add-hook 'text-mode-hook 'yas-minor-mode))
 
 ;;;; RIPGREP ;;;;
 
@@ -54,7 +50,6 @@
 ;;;; GIT ;;;;
 
 (use-package magit
-  :ensure t
   :bind ("C-x g" . magit-status))
 
 ;;;; RUST ;;;;
@@ -63,7 +58,6 @@
 (setq exec-path (append exec-path '("~/.cargo/bin")))
 
 (use-package rustic
-  :ensure t
   :config
   (setq rustic-lsp-client 'eglot)
   (setq rustic-format-on-save t)
@@ -71,22 +65,44 @@
   (rustic-cargo-use-last-stored-arguments t))
 
 (use-package eglot
-  :ensure t
-  :hook (rust-mode . eglot-ensure)
   :config
   (add-to-list 'eglot-server-programs
                '((rust-ts-mode rust-mode) .
                  ("rust-analyzer" :initializationOptions (:check (:command "clippy"))))))
 
-(use-package yasnippet
-  :ensure t
+;;;; APPEARANCE ;;;;
+
+(use-package dired-sidebar
+  :bind (("C-x C-d" . dired-sidebar-toggle-sidebar))
   :config
-  (yas-reload-all)
-  (add-hook 'prog-mode-hook 'yas-minor-mode)
-  (add-hook 'text-mode-hook 'yas-minor-mode))
+  (setq dired-sidebar-use-term-integration t)
+  (setq dired-sidebar-theme 'nerd)
+  (add-hook 'dired-sidebar-mode-hook (lambda () (display-line-numbers-mode -1))))
+
+(use-package atom-one-dark-theme
+  :config
+  (load-theme 'atom-one-dark t))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(show-paren-mode t)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(toggle-frame-maximized)
+(set-frame-font "Hack-13" nil t)
+;; Pretty lambda
+(add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
+(add-hook 'lisp-mode-hook 'prettify-symbols-mode)
+(add-hook 'sly-mode-hook 'prettify-symbols-mode)
 
 ;;;; CUSTOM ;;;;
 
+(setq default-directory "~/workspace/")
+;; Disable startup screen
+(setq inhibit-startup-screen t)
+;; Emacs completion
+(fido-vertical-mode 1)
 ;; Upcase/downcase region
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
@@ -110,38 +126,6 @@
 (global-set-key (kbd "C-M-z") nil)
 ;; Save history across sessions
 (savehist-mode 1)
-
-;;;; APPEARANCE ;;;;
-
-(setq inhibit-startup-screen t)
-(show-paren-mode t)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(toggle-frame-maximized)
-
-(use-package dired-sidebar
-  :bind (("C-x C-d" . dired-sidebar-toggle-sidebar))
-  :ensure t
-  :config
-  (setq dired-sidebar-use-term-integration t)
-  (setq dired-sidebar-theme 'nerd)
-  (add-hook 'dired-sidebar-mode-hook (lambda () (display-line-numbers-mode -1))))
-
-(use-package atom-one-dark-theme
-  :ensure t
-  :config
-  (load-theme 'atom-one-dark t))
-
-(use-package rainbow-delimiters
-  :ensure t
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-(set-frame-font "Hack-13" nil t)
-
-;; Pretty lambda
-(add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
-(add-hook 'lisp-mode-hook 'prettify-symbols-mode)
-(add-hook 'sly-mode-hook 'prettify-symbols-mode)
-
+;; Custom file
 (setq custom-file "~/.emacs.d/emacs-custom-file-that-i-despise.el")
 (load custom-file t)
