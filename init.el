@@ -14,6 +14,10 @@
   (require 'use-package))
 (setq use-package-always-ensure t)
 
+;;;; WORKSPACE ;;;;
+
+(setq default-directory "~/workspace/")
+
 ;;;; SLY ;;;;
 
 (add-to-list 'load-path "~/git/sly")
