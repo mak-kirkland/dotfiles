@@ -9,7 +9,6 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-(setq use-package-always-ensure t)
 
 ;;;; SLY ;;;;
 
@@ -83,6 +82,7 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (toggle-frame-maximized)
+(global-hl-line-mode nil)
 ;; Pretty lambda
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 (add-hook 'lisp-mode-hook 'prettify-symbols-mode)
