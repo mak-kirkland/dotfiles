@@ -94,9 +94,6 @@
 (setq inhibit-startup-screen t)
 ;; Emacs completion
 (fido-vertical-mode 1)
-;; Upcase/downcase region
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
 ;; Lisp mode in .cl files
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
 ;; Auto-revert buffers
