@@ -22,16 +22,19 @@
 ;;;; CODE COMPLETION ;;;;
 
 (use-package company
+  :ensure t
   :init
   (global-company-mode)
   (setq company-require-match nil))
 
 (use-package company-quickhelp
+  :ensure t
   :after company
   :config
   (company-quickhelp-mode))
 
 (use-package yasnippet
+  :ensure t
   :hook ((prog-mode text-mode) . yas-minor-mode)
   :config
   (yas-reload-all))
@@ -39,12 +42,14 @@
 ;;;; RIPGREP ;;;;
 
 (use-package rg
+  :ensure t
   :init
   (rg-enable-default-bindings))
 
 ;;;; GIT ;;;;
 
 (use-package magit
+  :ensure t
   :bind ("C-x g" . magit-status))
 
 ;;;; RUST ;;;;
@@ -53,6 +58,7 @@
 (setq exec-path (append exec-path '("~/.cargo/bin")))
 
 (use-package rustic
+  :ensure t
   :config
   (setq rustic-lsp-client 'eglot)
   (setq rustic-format-on-save t)
@@ -60,6 +66,7 @@
   (rustic-cargo-use-last-stored-arguments t))
 
 (use-package eglot
+  :ensure t
   :config
   (add-to-list 'eglot-server-programs
                '((rust-ts-mode rust-mode) .
@@ -68,16 +75,19 @@
 ;;;; APPEARANCE ;;;;
 
 (use-package dired-sidebar
+  :ensure t
   :bind (("C-x C-d" . dired-sidebar-toggle-sidebar))
   :config
   (setq dired-sidebar-use-term-integration t)
   (setq dired-sidebar-theme 'nerd))
 
 (use-package atom-one-dark-theme
+  :ensure t
   :config
   (load-theme 'atom-one-dark t))
 
 (use-package rainbow-delimiters
+  :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
 (menu-bar-mode -1)
