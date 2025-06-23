@@ -25,7 +25,10 @@
   :ensure t
   :init
   (global-company-mode)
-  (setq company-require-match nil))
+  (setq company-require-match nil)
+  :config
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 1))
 
 (use-package company-quickhelp
   :ensure t
@@ -79,12 +82,19 @@
 
 ;;;; APPEARANCE ;;;;
 
-(use-package dired-sidebar
+(use-package treemacs
   :ensure t
-  :bind (("C-x C-d" . dired-sidebar-toggle-sidebar))
+  :bind
+  (:map global-map
+        ("M-0" . treemacs-select-window)
+        ("C-x t t" . treemacs)
+        ("C-x t B" . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file))
   :config
-  (setq dired-sidebar-use-term-integration t)
-  (setq dired-sidebar-theme 'nerd))
+    ;; Single click to open files
+  (setq treemacs-mouse-1-single-click-expand t)
+  (with-eval-after-load 'treemacs
+    (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)))
 
 (use-package atom-one-dark-theme
   :ensure t
