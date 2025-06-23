@@ -70,7 +70,12 @@
   :config
   (add-to-list 'eglot-server-programs
                '((rust-ts-mode rust-mode) .
-                 ("rust-analyzer" :initializationOptions (:check (:command "clippy"))))))
+                 ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
+  ;; Customize symbol highlight face for stronger background highlight
+  (set-face-attribute 'eglot-highlight-symbol-face nil
+                      :background (face-background 'region)
+                      :foreground (face-foreground 'default)
+                      :weight 'bold))
 
 ;;;; APPEARANCE ;;;;
 
