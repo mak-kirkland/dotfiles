@@ -5,6 +5,39 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (unless package--initialized (package-initialize))
 
+;;;; APPEARANCE ;;;;
+
+(use-package treemacs
+  :ensure t
+  :bind
+  (:map global-map
+        ("M-0" . treemacs-select-window)
+        ("C-x t t" . treemacs)
+        ("C-x t B" . treemacs-bookmark)
+        ("C-x t C-t" . treemacs-find-file))
+  :config
+    ;; Single click to open files
+  (setq treemacs-mouse-1-single-click-expand t)
+  (with-eval-after-load 'treemacs
+    (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)))
+
+(use-package atom-one-dark-theme
+  :ensure t
+  :config
+  (load-theme 'atom-one-dark t))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(toggle-frame-maximized)
+(global-hl-line-mode nil)
+;; Pretty lambda
+(add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
+(add-hook 'lisp-mode-hook 'prettify-symbols-mode)
+
 ;;;; USE-PACKAGE ;;;;
 
 (unless (package-installed-p 'use-package)
@@ -77,41 +110,7 @@
   ;; Customize symbol highlight face for stronger background highlight
   (set-face-attribute 'eglot-highlight-symbol-face nil
                       :background (face-background 'region)
-                      :foreground (face-foreground 'default)
                       :weight 'bold))
-
-;;;; APPEARANCE ;;;;
-
-(use-package treemacs
-  :ensure t
-  :bind
-  (:map global-map
-        ("M-0" . treemacs-select-window)
-        ("C-x t t" . treemacs)
-        ("C-x t B" . treemacs-bookmark)
-        ("C-x t C-t" . treemacs-find-file))
-  :config
-    ;; Single click to open files
-  (setq treemacs-mouse-1-single-click-expand t)
-  (with-eval-after-load 'treemacs
-    (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)))
-
-(use-package atom-one-dark-theme
-  :ensure t
-  :config
-  (load-theme 'atom-one-dark t))
-
-(use-package rainbow-delimiters
-  :ensure t
-  :hook (prog-mode . rainbow-delimiters-mode))
-
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(toggle-frame-maximized)
-(global-hl-line-mode nil)
-;; Pretty lambda
-(add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
-(add-hook 'lisp-mode-hook 'prettify-symbols-mode)
 
 ;;;; CUSTOM ;;;;
 
