@@ -129,7 +129,7 @@
                       :background (face-background 'region)
                       :weight 'bold)
   (set-face-attribute 'eglot-diagnostic-tag-unnecessary-face nil
-                      :underline '(:style wave :color "red")))
+                      :inherit 'flymake-warning))
 
 ;;; Configuration for JSON files
 (use-package json-mode
