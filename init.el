@@ -5,6 +5,12 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (unless package--initialized (package-initialize))
 
+;;;; USE-PACKAGE ;;;;
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 ;;;; APPEARANCE ;;;;
 
 (use-package treemacs
@@ -38,11 +44,11 @@
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 (add-hook 'lisp-mode-hook 'prettify-symbols-mode)
 
-;;;; USE-PACKAGE ;;;;
+;;;; FORMATTING ;;;;
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+(use-package prettier
+  :ensure t
+  :hook (svelte-mode . prettier-mode))
 
 ;;;; SLY ;;;;
 
@@ -101,16 +107,44 @@
   :custom
   (rustic-cargo-use-last-stored-arguments t))
 
+;;;; SVELTE ;;;;
+
+(use-package svelte-mode
+  :ensure t
+  :mode ("\\.svelte\\'" . svelte-mode)
+  :hook (svelte-mode . prettier-mode))
+
+;;;; Eglot for LSP support ;;;;
+
 (use-package eglot
   :ensure t
+  :hook (svelte-mode . eglot-ensure)
   :config
   (add-to-list 'eglot-server-programs
                '((rust-ts-mode rust-mode) .
                  ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
+  (add-to-list 'eglot-server-programs '(svelte-mode . ("svelteserver" "--stdio")))
   ;; Customize symbol highlight face for stronger background highlight
   (set-face-attribute 'eglot-highlight-symbol-face nil
                       :background (face-background 'region)
-                      :weight 'bold))
+                      :weight 'bold)
+  (set-face-attribute 'eglot-diagnostic-tag-unnecessary-face nil
+                      :underline '(:style wave :color "red")))
+
+;;; Configuration for JSON files
+(use-package json-mode
+  :ensure t
+  :mode (("\\.json\\'" . json-mode)
+         ("\\.jsonc\\'" . json-mode) ; For JSON with comments
+         ("\\.prettierrc\\'" . json-mode))
+  :hook (json-mode . prettier-mode)) ; Optional: Auto-format on save
+
+;;; Configuration for YAML files
+(use-package yaml-mode
+  :ensure t
+  :mode (("\\.yml\\'" . yaml-mode)
+         ("\\.yaml\\'" . yaml-mode))
+  :hook (yaml-mode . prettier-mode)) ; Optional: Auto-format on save
 
 ;;;; CUSTOM ;;;;
 
