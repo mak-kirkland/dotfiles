@@ -22,8 +22,6 @@
         ("C-x t B" . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file))
   :config
-    ;; Single click to open files
-  (setq treemacs-mouse-1-single-click-expand t)
   (with-eval-after-load 'treemacs
     (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)))
 
@@ -121,6 +119,7 @@
 (use-package eglot
   :ensure t
   :hook (svelte-mode . eglot-ensure)
+  :hook (typescript-mode . eglot-ensure)
   :config
   (add-to-list 'eglot-server-programs
                '((rust-ts-mode rust-mode) .
@@ -204,11 +203,6 @@
    '("w" . other-window)
    '("v" . magit)
    '("r" . rg-project))
-  (meow-motion-overwrite-define-key
-   '("k" . meow-next)
-   '("j" . meow-prev)
-   '("l" . meow-right)
-   '("h" . meow-left))
   (meow-normal-define-key
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)
@@ -239,16 +233,8 @@
    '("f" . meow-find)
    '("g" . meow-cancel-selection)
    '("G" . meow-grab)
-   '("h" . meow-left)
-   '("H" . meow-left-expand)
    '("i" . meow-insert)
    '("I" . meow-open-above)
-   '("k" . meow-next)
-   '("K" . meow-next-expand)
-   '("j" . meow-prev)
-   '("J" . meow-prev-expand)
-   '("l" . meow-right)
-   '("L" . meow-right-expand)
    '("m" . meow-join)
    '("n" . meow-search)
    '("o" . meow-block)
@@ -258,7 +244,7 @@
    '("Q" . meow-goto-line)
    '("r" . meow-replace)
    '("R" . meow-swap-grab)
-   '("s" . meow-kill)
+   '("k" . meow-kill)
    '("t" . meow-till)
    '("u" . meow-undo)
    '("U" . meow-undo-in-selection)
@@ -280,3 +266,20 @@
   :config
   (meow-setup)
   (meow-global-mode 1))
+
+(defun my/disable-meow-mode ()
+  "Disable Meow minor mode in buffers that conflict with it."
+  (meow-normal-mode -1)
+  (meow-insert-mode -1)
+  (meow-motion-mode -1)
+  (meow-mode -1)) ;; Fully disables Meow keymaps
+
+(dolist (hook '(magit-mode-hook
+                magit-status-mode-hook
+                magit-log-mode-hook
+                magit-diff-mode-hook
+                magit-refs-mode-hook
+                magit-process-mode-hook
+                magit-revision-mode-hook
+                magit-blame-mode-hook))
+  (add-hook hook #'my/disable-meow-mode))
