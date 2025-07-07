@@ -112,7 +112,9 @@
 (use-package svelte-mode
   :ensure t
   :mode ("\\.svelte\\'" . svelte-mode)
-  :hook (svelte-mode . prettier-mode))
+  :hook (svelte-mode . prettier-mode)
+  :config
+  (customize-set-variable 'svelte-basic-offset 4))
 
 ;;;; Eglot for LSP support ;;;;
 
@@ -145,6 +147,16 @@
   :mode (("\\.yml\\'" . yaml-mode)
          ("\\.yaml\\'" . yaml-mode))
   :hook (yaml-mode . prettier-mode)) ; Optional: Auto-format on save
+
+;;; Enable Prettier for CSS files
+(use-package css-mode
+  :hook (css-mode . prettier-mode))
+
+;;; Enable Prettier for TypeScript files
+(use-package typescript-mode
+  :ensure t
+  :mode "\\.ts\\'"
+  :hook (typescript-mode . prettier-mode))
 
 ;;;; CUSTOM ;;;;
 
