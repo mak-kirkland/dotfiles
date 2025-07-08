@@ -15,6 +15,7 @@
 
 (use-package treemacs
   :ensure t
+  :hook  (emacs-startup . treemacs)
   :bind
   (:map global-map
         ("M-0" . treemacs-select-window)
