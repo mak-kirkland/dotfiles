@@ -46,8 +46,7 @@
 ;;;; FORMATTING ;;;;
 
 (use-package prettier
-  :ensure t
-  :hook (svelte-mode . prettier-mode))
+  :ensure t)
 
 ;;;; SLY ;;;;
 
@@ -121,11 +120,20 @@
   :ensure t
   :hook (svelte-mode . eglot-ensure)
   :hook (typescript-mode . eglot-ensure)
+  :hook (json-mode . eglot-ensure)
   :config
+  (add-to-list 'eglot-server-programs
+               '(json-mode . ("vscode-json-languageserver" "--stdio")))
   (add-to-list 'eglot-server-programs
                '((rust-ts-mode rust-mode) .
                  ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
   (add-to-list 'eglot-server-programs '(svelte-mode . ("svelteserver" "--stdio")))
+  (add-to-list 'eglot-server-programs
+               '(typescript-mode .
+                 (lambda (major-mode)
+                   (if (derived-mode-p major-mode 'svelte-mode)
+                       '("svelteserver" "--stdio")
+                     '("typescript-language-server" "--stdio")))))
   ;; Customize symbol highlight face for stronger background highlight
   (set-face-attribute 'eglot-highlight-symbol-face nil
                       :background (face-background 'region)
@@ -151,12 +159,6 @@
 ;;; Enable Prettier for CSS files
 (use-package css-mode
   :hook (css-mode . prettier-mode))
-
-;;; Enable Prettier for TypeScript files
-(use-package typescript-mode
-  :ensure t
-  :mode "\\.ts\\'"
-  :hook (typescript-mode . prettier-mode))
 
 ;;;; CUSTOM ;;;;
 
