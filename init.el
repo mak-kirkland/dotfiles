@@ -141,6 +141,12 @@
   (set-face-attribute 'eglot-diagnostic-tag-unnecessary-face nil
                       :inherit 'flymake-warning))
 
+;;; Configuration for TypeScript files
+(use-package typescript-mode
+  :ensure t
+  :mode (("\\.ts\\'" . typescript-mode))
+  :hook (typescript-mode . prettier-mode))
+
 ;;; Configuration for JSON files
 (use-package json-mode
   :ensure t
