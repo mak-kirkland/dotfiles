@@ -94,8 +94,8 @@
 
 ;;;; RUST ;;;;
 
-(setenv "PATH" (concat (getenv "PATH") ":" (getenv "HOME") "/.cargo/bin"))
-(setq exec-path (append exec-path '("~/.cargo/bin")))
+(setenv "PATH" (concat (getenv "PATH") ":" (getenv "HOME") "/.cargo/bin" ":" (getenv "HOME") "/.local/share/pnpm"))
+(setq exec-path (append exec-path '("~/.cargo/bin" "~/.local/share/pnpm")))
 
 (use-package rustic
   :ensure t
