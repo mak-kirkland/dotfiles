@@ -56,35 +56,81 @@
   :config
   (add-to-list 'sly-lisp-implementations '(sbcl ("sbcl"))))
 
-;;;; CODE COMPLETION ;;;;
+;;;; MODERN COMPLETION ;;;;
 
-(use-package company
+;; Vertico provides a minimal, high-performance vertical completion UI
+;; This replaces the default Emacs completion and fido-vertical-mode.
+(use-package vertico
   :ensure t
   :init
-  (global-company-mode)
-  (setq company-require-match nil)
-  :config
-  (setq company-idle-delay 0.1
-        company-minimum-prefix-length 1))
+  (vertico-mode 1))
 
-(use-package company-quickhelp
-  :ensure t
-  :after company
-  :config
-  (company-quickhelp-mode))
-
-(use-package yasnippet
-  :ensure t
-  :hook ((prog-mode text-mode) . yas-minor-mode)
-  :config
-  (yas-reload-all))
-
-;;;; RIPGREP ;;;;
-
-(use-package rg
+;; Orderless provides flexible "out-of-order" filtering for Vertico/Corfu
+(use-package orderless
   :ensure t
   :init
-  (rg-enable-default-bindings))
+  ;; Set orderless as the default completion style
+  (setq completion-styles '(orderless basic)
+        ;; Keep categories nil to ensure orderless is used everywhere
+        completion-category-defaults nil
+        ;; EXCEPT for files, where we want traditional partial completion
+        completion-category-overrides '((file (styles . (partial-completion))))))
+
+;; Marginalia adds helpful annotations (metadata) to minibuffer completions
+(use-package marginalia
+  :ensure t
+  :after vertico
+  :init
+  (marginalia-mode 1))
+
+;; Corfu provides an in-buffer completion UI (replaces Company)
+;; It's lightweight and builds on standard Emacs functions.
+(use-package corfu
+  :ensure t
+  :init
+  (global-corfu-mode)
+  (corfu-popupinfo-mode)
+  :config
+  ;; Sane defaults to make Corfu feel like a modern, automatic popup
+  (setq corfu-cycle t                ; Allow cycling through candidates
+        corfu-auto t                 ; Enable auto-completion
+        corfu-preview-current nil    ; Don't preview current candidate
+        corfu-separator ?\s          ; Use space as separator
+        corfu-quit-at-boundary 'separator ; Hide popup when you type space
+        corfu-quit-no-match 'separator    ; Hide popup if there are no matches
+        corfu-auto-prefix 2          ; Start completion after 2 char
+        corfu-auto-delay 0.1         ; Wait 0.1s before showing popup
+        corfu-popupinfo-delay '(1.0 . 0.5)
+        ))
+
+; Additional completion-at-point backends
+(use-package cape
+  :ensure t
+  :config
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev) ; in-buffer
+  (add-to-list 'completion-at-point-functions #'cape-file))   ; file paths
+
+;; Consult provides powerful search/navigation commands using Vertico
+(use-package consult
+  :ensure t)
+
+;; Icons for Corfu
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+;; Run M-x all-the-icons-install-fonts
+(use-package all-the-icons
+  :ensure t)
+
+;; This package connects all-the-icons to Marginalia
+(use-package all-the-icons-completion
+  :ensure t
+  :after marginalia
+  :config
+  (all-the-icons-completion-marginalia-setup))
 
 ;;;; GIT ;;;;
 
@@ -100,7 +146,7 @@
 (use-package rustic
   :ensure t
   :config
-  (setq rustic-lsp-client 'eglot)
+  (setq rustic-lsp-client nil)
   (setq rustic-format-on-save t)
   :custom
   (rustic-cargo-use-last-stored-arguments t))
@@ -118,9 +164,10 @@
 
 (use-package eglot
   :ensure t
-  :hook (svelte-mode . eglot-ensure)
-  :hook (typescript-mode . eglot-ensure)
-  :hook (json-mode . eglot-ensure)
+  :hook ((svelte-mode . eglot-ensure)
+         (typescript-mode . eglot-ensure)
+         (json-mode . eglot-ensure)
+         (rustic-mode . eglot-ensure))
   :config
   (add-to-list 'eglot-server-programs
                '(json-mode . ("vscode-json-languageserver" "--stdio")))
@@ -171,8 +218,6 @@
 (setq default-directory "~/workspace/")
 ;; Disable startup screen
 (setq inhibit-startup-screen t)
-;; Emacs completion
-(fido-vertical-mode 1)
 ;; Lisp mode in .cl files
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
 ;; Auto-revert buffers
@@ -206,12 +251,12 @@
   (meow-leader-define-key
    '("f" . find-file)
    '("p" . project-find-file)
-   '("b" . switch-to-buffer)
+   '("b" . consult-buffer)
    '("s" . save-buffer)
    '("x" . execute-extended-command)
    '("w" . other-window)
    '("v" . magit)
-   '("r" . rg-project))
+   '("r" . consult-ripgrep))
   (meow-normal-define-key
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)
