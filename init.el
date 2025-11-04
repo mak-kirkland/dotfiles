@@ -43,23 +43,9 @@
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 (add-hook 'lisp-mode-hook 'prettify-symbols-mode)
 
-;;;; FORMATTING ;;;;
-
-(use-package prettier
-  :ensure t)
-
-;;;; SLY ;;;;
-
-(use-package sly
-  :load-path "~/git/sly"
-  :hook (sly-mode . prettify-symbols-mode)
-  :config
-  (add-to-list 'sly-lisp-implementations '(sbcl ("sbcl"))))
-
 ;;;; MODERN COMPLETION ;;;;
 
 ;; Vertico provides a minimal, high-performance vertical completion UI
-;; This replaces the default Emacs completion and fido-vertical-mode.
 (use-package vertico
   :ensure t
   :init
@@ -84,7 +70,6 @@
   (marginalia-mode 1))
 
 ;; Corfu provides an in-buffer completion UI (replaces Company)
-;; It's lightweight and builds on standard Emacs functions.
 (use-package corfu
   :ensure t
   :init
@@ -92,18 +77,18 @@
   (corfu-popupinfo-mode)
   :config
   ;; Sane defaults to make Corfu feel like a modern, automatic popup
-  (setq corfu-cycle t                ; Allow cycling through candidates
-        corfu-auto t                 ; Enable auto-completion
-        corfu-preview-current nil    ; Don't preview current candidate
-        corfu-separator ?\s          ; Use space as separator
+  (setq corfu-cycle t              ; Allow cycling through candidates
+        corfu-auto t               ; Enable auto-completion
+        corfu-preview-current nil  ; Don't preview current candidate
+        corfu-separator ?\s        ; Use space as separator
         corfu-quit-at-boundary 'separator ; Hide popup when you type space
         corfu-quit-no-match 'separator    ; Hide popup if there are no matches
-        corfu-auto-prefix 2          ; Start completion after 2 char
-        corfu-auto-delay 0.1         ; Wait 0.1s before showing popup
+        corfu-auto-prefix 2        ; Start completion after 2 char
+        corfu-auto-delay 0.1       ; Wait 0.1s before showing popup
         corfu-popupinfo-delay '(1.0 . 0.5)
         ))
 
-; Additional completion-at-point backends
+;; Provides extra completion "brains" (backends) for Corfu
 (use-package cape
   :ensure t
   :config
@@ -132,17 +117,31 @@
   :config
   (all-the-icons-completion-marginalia-setup))
 
-;;;; GIT ;;;;
+;;;; ENVIRONMENT ;;;;
 
+;; Tell Emacs where to find command-line tools
+(setenv "PATH" (concat (getenv "PATH") ":" (getenv "HOME") "/.cargo/bin" ":" (getenv "HOME") "/.local/share/pnpm"))
+(setq exec-path (append exec-path '("~/.cargo/bin" "~/.local/share/pnpm")))
+
+;;;; LANGUAGES & TOOLS ;;;;
+
+;;;; GIT ;;;;
 (use-package magit
   :ensure t
   :bind ("C-x g" . magit-status))
 
+;;;; FORMATTING ;;;;
+(use-package prettier
+  :ensure t)
+
+;;;; SLY ;;;;
+(use-package sly
+  :load-path "~/git/sly"
+  :hook (sly-mode . prettify-symbols-mode)
+  :config
+  (add-to-list 'sly-lisp-implementations '(sbcl ("sbcl"))))
+
 ;;;; RUST ;;;;
-
-(setenv "PATH" (concat (getenv "PATH") ":" (getenv "HOME") "/.cargo/bin" ":" (getenv "HOME") "/.local/share/pnpm"))
-(setq exec-path (append exec-path '("~/.cargo/bin" "~/.local/share/pnpm")))
-
 (use-package rustic
   :ensure t
   :config
@@ -152,7 +151,6 @@
   (rustic-cargo-use-last-stored-arguments t))
 
 ;;;; SVELTE ;;;;
-
 (use-package svelte-mode
   :ensure t
   :mode ("\\.svelte\\'" . svelte-mode)
@@ -160,8 +158,32 @@
   :config
   (customize-set-variable 'svelte-basic-offset 4))
 
-;;;; Eglot for LSP support ;;;;
+;;;; TYPESCRIPT ;;;;
+(use-package typescript-mode
+  :ensure t
+  :mode (("\\.ts\\'" . typescript-mode))
+  :hook (typescript-mode . prettier-mode))
 
+;;;; JSON ;;;;
+(use-package json-mode
+  :ensure t
+  :mode (("\\.json\\'" . json-mode)
+         ("\\.jsonc\\'" . json-mode) ; For JSON with comments
+         ("\\.prettierrc\\'" . json-mode))
+  :hook (json-mode . prettier-mode)) ; Optional: Auto-format on save
+
+;;;; YAML ;;;;
+(use-package yaml-mode
+  :ensure t
+  :mode (("\\.yml\\'" . yaml-mode)
+         ("\\.yaml\\'" . yaml-mode))
+  :hook (yaml-mode . prettier-mode)) ; Optional: Auto-format on save
+
+;;;; CSS ;;;;
+(use-package css-mode
+  :hook (css-mode . prettier-mode))
+
+;;;; Eglot for LSP support ;;;;
 (use-package eglot
   :ensure t
   :hook ((svelte-mode . eglot-ensure)
@@ -187,31 +209,6 @@
                       :weight 'bold)
   (set-face-attribute 'eglot-diagnostic-tag-unnecessary-face nil
                       :inherit 'flymake-warning))
-
-;;; Configuration for TypeScript files
-(use-package typescript-mode
-  :ensure t
-  :mode (("\\.ts\\'" . typescript-mode))
-  :hook (typescript-mode . prettier-mode))
-
-;;; Configuration for JSON files
-(use-package json-mode
-  :ensure t
-  :mode (("\\.json\\'" . json-mode)
-         ("\\.jsonc\\'" . json-mode) ; For JSON with comments
-         ("\\.prettierrc\\'" . json-mode))
-  :hook (json-mode . prettier-mode)) ; Optional: Auto-format on save
-
-;;; Configuration for YAML files
-(use-package yaml-mode
-  :ensure t
-  :mode (("\\.yml\\'" . yaml-mode)
-         ("\\.yaml\\'" . yaml-mode))
-  :hook (yaml-mode . prettier-mode)) ; Optional: Auto-format on save
-
-;;; Enable Prettier for CSS files
-(use-package css-mode
-  :hook (css-mode . prettier-mode))
 
 ;;;; CUSTOM ;;;;
 
