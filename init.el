@@ -138,7 +138,7 @@
 ;;;; SLY ;;;;
 (use-package sly
   :load-path "~/git/sly"
-  :hook (sly-mode . prettify-symbols-mode)
+  :defer t
   :config
   (add-to-list 'sly-lisp-implementations '(sbcl ("sbcl"))))
 
