@@ -11,6 +11,16 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+;;;; PERFORMANCE ;;;;
+
+;; Temporarily disable garbage collection during startup
+(setq gc-cons-threshold most-positive-fixnum)
+
+;; Restore a sane GC threshold after startup
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (* 100 1024 1024)))) ; 100MB
+
 ;;;; APPEARANCE ;;;;
 
 (use-package treemacs
