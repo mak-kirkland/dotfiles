@@ -144,7 +144,6 @@
 
 ;;;; SLY ;;;;
 (use-package sly
-  :load-path "~/git/sly"
   :defer t
   :config
   (add-to-list 'sly-lisp-implementations '(sbcl ("sbcl"))))
