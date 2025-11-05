@@ -105,6 +105,23 @@
 (use-package consult
   :ensure t)
 
+;; Embark provides contextual actions on a target
+(use-package embark
+  :ensure t
+  :bind
+  (("C-." . embark-act)
+   ("M-." . embark-dwim)
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command))
+
+;; Provides embark actions for Consult commands
+(use-package embark-consult
+  :ensure t ; only need to install it, embark loads it after consult if found
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
 ;; Icons for Corfu
 (use-package kind-icon
   :ensure t
