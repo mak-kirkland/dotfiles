@@ -253,7 +253,8 @@
    '("x" . execute-extended-command)
    '("w" . other-window)
    '("v" . magit)
-   '("r" . consult-ripgrep))
+   '("r" . consult-ripgrep)
+   '("l" . consult-line))
   (meow-normal-define-key
    '("0" . meow-expand-0)
    '("9" . meow-expand-9)
