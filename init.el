@@ -15,7 +15,7 @@
 
 (use-package treemacs
   :ensure t
-  :hook  (emacs-startup . treemacs)
+  :hook (emacs-startup . treemacs)
   :bind
   (:map global-map
         ("M-0" . treemacs-select-window)
@@ -23,8 +23,7 @@
         ("C-x t B" . treemacs-bookmark)
         ("C-x t C-t" . treemacs-find-file))
   :config
-  (with-eval-after-load 'treemacs
-    (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action)))
+  (define-key treemacs-mode-map [mouse-1] #'treemacs-single-click-expand-action))
 
 (use-package atom-one-dark-theme
   :ensure t
