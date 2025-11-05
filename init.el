@@ -119,9 +119,11 @@
 
 ;;;; ENVIRONMENT ;;;;
 
-;; Tell Emacs where to find command-line tools
-(setenv "PATH" (concat (getenv "PATH") ":" (getenv "HOME") "/.cargo/bin" ":" (getenv "HOME") "/.local/share/pnpm"))
-(setq exec-path (append exec-path '("~/.cargo/bin" "~/.local/share/pnpm")))
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
 
 ;;;; LANGUAGES & TOOLS ;;;;
 
