@@ -44,9 +44,6 @@
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(toggle-frame-maximized)
 (global-hl-line-mode nil)
 ;; Pretty lambda
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
@@ -224,8 +221,6 @@
 ;;;; CUSTOM ;;;;
 
 (setq default-directory "~/workspace/")
-;; Disable startup screen
-(setq inhibit-startup-screen t)
 ;; Lisp mode in .cl files
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
 ;; Auto-revert buffers
