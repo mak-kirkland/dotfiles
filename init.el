@@ -162,7 +162,7 @@
 ;;;; TREE-SITTER ;;;;
 (setq treesit-language-source-alist
       '((rust . ("https://github.com/tree-sitter/tree-sitter-rust"))
-        (svelte . ("https://github.com/tree-sitter-grammars/tree-sitter-svelte"))
+        (svelte . ("https://github.com/Himujjal/tree-sitter-svelte"))
         (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
         (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
         (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
@@ -193,6 +193,7 @@
 
 ;;;; SVELTE ;;;;
 (use-package svelte-ts-mode
+  ;; git clone https://github.com/leafOfTree/svelte-ts-mode
   :load-path "~/workspace/svelte-ts-mode/"
   :mode ("\\.svelte\\'" . svelte-ts-mode)
   :hook (svelte-ts-mode . prettier-mode))
@@ -225,7 +226,7 @@
 ;;;; Eglot for LSP support ;;;;
 (use-package eglot
   :ensure t
-  :hook ((svelte-mode . eglot-ensure)
+  :hook ((svelte-ts-mode . eglot-ensure)
          (typescript-mode . eglot-ensure)
          (json-mode . eglot-ensure)
          (rustic-mode . eglot-ensure))
