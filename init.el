@@ -44,7 +44,6 @@
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
-(global-hl-line-mode nil)
 ;; Pretty lambda
 (add-hook 'emacs-lisp-mode-hook 'prettify-symbols-mode)
 (add-hook 'lisp-mode-hook 'prettify-symbols-mode)
@@ -246,7 +245,6 @@
 
 ;;;; CUSTOM ;;;;
 
-(setq default-directory "~/workspace/")
 ;; Lisp mode in .cl files
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
 ;; Auto-revert buffers
