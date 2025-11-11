@@ -237,12 +237,6 @@
                '((rust-ts-mode rust-mode) .
                  ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
   (add-to-list 'eglot-server-programs '(svelte-ts-mode . ("svelteserver" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               '(typescript-mode .
-                 (lambda (major-mode)
-                   (if (derived-mode-p major-mode 'svelte-mode)
-                       '("svelteserver" "--stdio")
-                     '("typescript-language-server" "--stdio")))))
   ;; Customize symbol highlight face for stronger background highlight
   (set-face-attribute 'eglot-highlight-symbol-face nil
                       :background (face-background 'region)
