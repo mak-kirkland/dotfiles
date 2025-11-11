@@ -159,18 +159,20 @@
 (use-package prettier
   :ensure t)
 
-;;;; Tree-Sitter for syntax (grammar) highlighting ;;;;
-(use-package tree-sitter
-  :ensure t
-  :config
-  (global-tree-sitter-mode 1)
-  ;; Enable highlighting
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+;;;; TREE-SITTER ;;;;
+(setq treesit-language-source-alist
+      '((rust . ("https://github.com/tree-sitter/tree-sitter-rust"))
+        (svelte . ("https://github.com/tree-sitter-grammars/tree-sitter-svelte"))
+        (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src"))
+        (tsx . ("https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src"))
+        (javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
+        (css . ("https://github.com/tree-sitter/tree-sitter-css"))
+        (html . ("https://github.com/tree-sitter/tree-sitter-html"))
+        (json . ("https://github.com/tree-sitter/tree-sitter-json"))
+        (yaml . ("https://github.com/tree-sitter-grammars/tree-sitter-yaml"))
+        ))
 
-;; Helper package to install/manage language grammars
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter)
+(setq treesit-font-lock-level 4)
 
 ;;;; SLY ;;;;
 (use-package sly
@@ -181,19 +183,19 @@
 ;;;; RUST ;;;;
 (use-package rustic
   :ensure t
+  :init
+  (setq rust-mode-treesitter-derive t)
   :config
-  (setq rustic-lsp-client nil)
+  (setq rustic-lsp-client 'eglot)
   (setq rustic-format-on-save t)
   :custom
   (rustic-cargo-use-last-stored-arguments t))
 
 ;;;; SVELTE ;;;;
-(use-package svelte-mode
-  :ensure t
-  :mode ("\\.svelte\\'" . svelte-mode)
-  :hook (svelte-mode . prettier-mode)
-  :config
-  (customize-set-variable 'svelte-basic-offset 4))
+(use-package svelte-ts-mode
+  :load-path "~/workspace/svelte-ts-mode/"
+  :mode ("\\.svelte\\'" . svelte-ts-mode)
+  :hook (svelte-ts-mode . prettier-mode))
 
 ;;;; TYPESCRIPT ;;;;
 (use-package typescript-mode
@@ -233,7 +235,7 @@
   (add-to-list 'eglot-server-programs
                '((rust-ts-mode rust-mode) .
                  ("rust-analyzer" :initializationOptions (:check (:command "clippy")))))
-  (add-to-list 'eglot-server-programs '(svelte-mode . ("svelteserver" "--stdio")))
+  (add-to-list 'eglot-server-programs '(svelte-ts-mode . ("svelteserver" "--stdio")))
   (add-to-list 'eglot-server-programs
                '(typescript-mode .
                  (lambda (major-mode)
