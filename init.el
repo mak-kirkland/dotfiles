@@ -247,6 +247,8 @@
 
 ;;;; CUSTOM ;;;;
 
+;; Show available keybindings after you press a prefix
+(which-key-mode 1)
 ;; Lisp mode in .cl files
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . lisp-mode))
 ;; Auto-revert buffers
